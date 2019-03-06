@@ -1,0 +1,86 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>chatbot for Node.js</title>
+  <style>
+    .left-area {
+      width: 350px;
+      height: 300px;
+      float: left;
+    }
+
+    .right-area {
+      width: 150px;
+      height: 300px;
+      float: left;
+    }
+
+    .message-area {
+      width: 500px;
+      height: 100px;
+      clear: both;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    .chat {
+      width: 340px;
+      height: 300px;
+    }
+
+    .member {
+      width: 140px;
+      height: 300px;
+    }
+
+    .message {
+      margin-top: 10px;
+      width: 490px;
+    }
+  </style>
+</head>
+<body>
+<p>チャットボットテスト</p>
+
+<div class="left-area">
+  <textarea id="chat" class="chat"></textarea>
+</div>
+<div class="right-area">
+  <textarea id="member" class="member"></textarea>
+</div>
+<div class="message-area">
+  <input type="text" id="message" class="message"></input>
+</div>
+
+<script>
+  document.getElementById('chat').readOnly = true;
+  document.getElementById('member').readOnly = true;
+</script>
+
+<script>
+  var sock = new WebSocket('ws://127.0.0.1:5001');
+
+  sock.addEventListener('open', function(e) {
+    console.log('Socket接続成功');
+  });
+
+  sock.addEventListener('message', function(e) {
+    console.log(e.data);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    var chat = document.getElementById('chat');
+    var member = document.getElementById('member');
+    var message = document.getElementById('message');
+
+    if(e.keyCode === 13) {
+      sock.send(message.value);
+      chat.value += message.value + "\n";
+      message.value = "";
+    }
+  });
+</script>
+</body>
+</html>
