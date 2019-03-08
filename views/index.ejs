@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>chatbot for Node.js</title>
+  <title>Chatbot for Node.js</title>
   <style>
     .left-area {
       width: 350px;
@@ -67,7 +67,9 @@
   });
 
   sock.addEventListener('message', function(e) {
+    var chat = document.getElementById('chat');
     console.log(e.data);
+    chat.value += e.data + "\n";
   });
 
   document.addEventListener('keydown', function(e) {
